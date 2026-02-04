@@ -1,0 +1,3 @@
+* text=auto eol=lf
+*.liquid linguist-language=Liquid
+*.js linguist-detectable=true

@@ -1,0 +1,32 @@
+{%- comment -%} Minimal cart line items for standalone cart drawer. Uses standard Liquid cart only. {%- endcomment -%}
+<div class="cart-drawer-items" data-cart-drawer-content>
+  {% if cart.empty? %}
+    <p class="cart-drawer__empty">{{ 'cart.general.empty' | t | default: 'Your cart is empty' }}</p>
+    <a href="{{ routes.all_products_collection_url | default: '/collections/all' }}" class="button">{{ 'cart.general.continue_shopping' | t | default: 'Continue shopping' }}</a>
+  {% else %}
+    <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form" class="cart-form">
+      <ul class="cart-drawer-items__list">
+        {% for item in cart.items %}
+          <li class="cart-drawer-item" data-key="{{ item.key }}">
+            <a href="{{ item.url }}" class="cart-drawer-item__image">
+              {% if item.image %}
+                {{ item.image | image_url: width: 150 | image_tag: loading: 'lazy', alt: item.title }}
+              {% endif %}
+            </a>
+            <div class="cart-drawer-item__details">
+              <a href="{{ item.url }}" class="cart-drawer-item__title">{{ item.product.title }}</a>
+              {% unless item.variant.title == 'Default Title' %}<span class="cart-drawer-item__variant">{{ item.variant.title }}</span>{% endunless %}
+              <div class="cart-drawer-item__quantity">
+                <label for="updates-{{ item.key }}" class="visually-hidden">Quantity</label>
+                <input type="number" name="updates[]" id="updates-{{ item.key }}" value="{{ item.quantity }}" min="0" data-line="{{ forloop.index }}" class="cart-drawer-item__qty-input">
+              </div>
+              <div class="cart-drawer-item__price">{{ item.final_line_price | money }}</div>
+              <a href="{{ item.url_to_remove }}" class="cart-drawer-item__remove" aria-label="Remove">{{ 'cart.general.remove' | t | default: 'Remove' }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      <button type="submit" name="update" class="button button--secondary cart-drawer__update">{{ 'cart.general.update' | t | default: 'Update' }}</button>
+    </form>
+  {% endif %}
+</div>

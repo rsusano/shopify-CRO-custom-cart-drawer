@@ -1,0 +1,63 @@
+{%- comment -%}
+  Standalone Cart Drawer – theme- and app-agnostic.
+  Include in layout with {% section 'cart-drawer' %}. Load cart-drawer-standalone.js.
+  Listens for cart-drawer:open, cart:update, bundle:cart-added.
+{%- endcomment -%}
+{{ 'section-cart-drawer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-drawer-standalone.js' | asset_url }}" defer></script>
+
+<div
+  id="shopify-section-{{ section.id }}"
+  class="shopify-section cart-drawer-section"
+  data-cart-drawer-standalone
+  data-section-id="{{ section.id }}"
+>
+  <div class="cart-drawer {% if cart.empty? %}cart-drawer--empty{% endif %}">
+    <dialog
+      class="cart-drawer__dialog"
+      aria-labelledby="cart-drawer-heading"
+      aria-modal="true"
+    >
+      <div class="cart-drawer__inner" data-cart-drawer-replace>
+        <header class="cart-drawer__header">
+          <h2 class="cart-drawer__heading" id="cart-drawer-heading">
+            {{ section.settings.heading | default: 'Cart' }} &bull; {{ cart.item_count }}
+          </h2>
+          <button type="button" data-cart-drawer-close class="cart-drawer__close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </header>
+
+        <div class="cart-drawer__body">
+          {% render 'cart-drawer-items' %}
+        </div>
+
+        {% unless cart.empty? %}
+          <div class="cart-drawer__footer">
+            {% render 'cart-drawer-summary', checkout_button_text: section.settings.checkout_button_text %}
+          </div>
+        {% endunless %}
+      </div>
+    </dialog>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cart"
+    },
+    {
+      "type": "text",
+      "id": "checkout_button_text",
+      "label": "Checkout button text",
+      "default": "Check out"
+    }
+  ]
+}
+{% endschema %}
