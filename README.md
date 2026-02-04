@@ -43,7 +43,7 @@ A **theme- and app-agnostic** cart drawer for Shopify. Works with **any theme**,
 ## 📦 What's Included
 
 ```
-shopify-cart-drawer/
+shopify-CRO-custom-cart-drawer/
 ├── sections/
 │   └── cart-drawer.liquid       # Cart drawer section (dialog + header, body, footer)
 ├── assets/

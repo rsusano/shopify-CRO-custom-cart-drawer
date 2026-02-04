@@ -19,7 +19,7 @@ A **theme- and app-agnostic** cart drawer for Shopify. Works with **any theme** 
 ## Repo structure
 
 ```
-shopify-cart-drawer/
+shopify-CRO-custom-cart-drawer/
 ├── sections/     → Copy to your theme sections/
 ├── assets/       → Copy to your theme assets/
 ├── snippets/     → Copy to your theme snippets/
