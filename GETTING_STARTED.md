@@ -11,6 +11,7 @@ Quick path to a working cart drawer on any Shopify theme, with any app (bundle, 
 | `assets/section-cart-drawer.css` | `assets/` |
 | `snippets/cart-drawer-items.liquid` | `snippets/` |
 | `snippets/cart-drawer-summary.liquid` | `snippets/` |
+| `assets/cart-drawer-app-bridge.js` | `assets/` (optional – for auto-open with any app) |
 
 ## 2. Add the section to your layout
 
@@ -39,12 +40,9 @@ document.querySelector('#cart-icon').addEventListener('click', function () {
 });
 ```
 
-## 4. Optional: Open drawer after add-to-cart (theme or app)
+## 4. Optional: Auto-open with any bundle or subscription app
 
-- **Theme:** After your add-to-cart fetch succeeds, dispatch `cart-drawer:open`.
-- **App (Kaching, Recharge, etc.):** Have the app (or a script) dispatch `cart-drawer:open` after it adds to cart.
-
-See [App integration](docs/app-integration.md) for details.
+For stores that use a **bundle app** (e.g. Kaching) or **subscription app** (e.g. Recharge): add **cart-drawer-app-bridge.js** to your layout (after the cart drawer section). The drawer will then open automatically after any add-to-cart from the theme or app – no per-app code needed. See [Installation](docs/installation.md) step 5 and [App integration](docs/app-integration.md).
 
 ## Next steps
 

@@ -44,7 +44,7 @@ fetch(window.location.pathname + '?section_id=' + sectionId)
 
 ## How to integrate from an app (Kaching, Recharge, etc.)
 
-Apps that add to cart via the Storefront API or fetch do not automatically open the theme’s drawer. To work with this drawer:
+Apps that add to cart via the Storefront API or fetch do not automatically open the theme’s drawer. You have two options. **Option A (easiest for client stores):** Add optional **cart-drawer-app-bridge.js** to the theme layout (see [Installation](installation.md) step 5). It opens the drawer after any fetch to /cart/add, so any bundle or subscription app that uses fetch works with no per-app code. **Option B:** Have the app or a script dispatch the event:
 
 1. **After the app adds to cart**, have the app (or a script the app injects) dispatch one of the events above.
 2. **Recommended:** Dispatch **`cart-drawer:open`** so the drawer opens and refreshes by fetching the section. No section ID is required; the drawer uses its own `data-section-id`.
@@ -71,5 +71,5 @@ The drawer section’s ID is in the section wrapper: `data-section-id="{{ sectio
 
 ## Summary
 
-- **Theme:** After add-to-cart, dispatch `cart-drawer:open` (and optionally `cart:update` with section HTML).
-- **Any app (Kaching, Recharge, custom bundle, etc.):** After add-to-cart, dispatch `cart-drawer:open` so this drawer opens and refreshes. Optionally pass section HTML via `cart:update` or `bundle:cart-added` for a faster update.
+- **Theme:** After add-to-cart, dispatch `cart-drawer:open` (and optionally `cart:update` with section HTML). Or use the optional app bridge script for automatic open.
+- **Any app (Kaching, Recharge, custom bundle, etc.):** Use the optional **cart-drawer-app-bridge.js** for one-click compatibility (no app changes), or have the app dispatch `cart-drawer:open` after add-to-cart. Optionally pass section HTML via `cart:update` or `bundle:cart-added` for a faster update.

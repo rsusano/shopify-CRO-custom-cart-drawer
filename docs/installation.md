@@ -13,6 +13,7 @@ Copy into your theme root:
 | `assets/section-cart-drawer.css` | `assets/` |
 | `snippets/cart-drawer-items.liquid` | `snippets/` |
 | `snippets/cart-drawer-summary.liquid` | `snippets/` |
+| `assets/cart-drawer-app-bridge.js` | `assets/` (optional – see step 5) |
 
 ## 2. Include the section in layout
 
@@ -51,9 +52,22 @@ if (window.CartDrawerStandalone) window.CartDrawerStandalone.open();
 
 Update the cart icon’s label or text with the current item count when the cart changes. Listen for `cart-drawer:loaded` or `cart:update` and fetch `/cart.js` to get `item_count`, then update your header.
 
-## 5. Compatibility with add-to-cart (theme or apps)
+## 5. Optional: Auto-open with any bundle or subscription app
 
-- **Theme add-to-cart:** After your theme adds to cart via AJAX, dispatch `cart-drawer:open` (and optionally `cart:update` with section HTML) so the drawer opens and shows the updated cart. See [App integration](app-integration.md).
-- **Bundle / subscription apps (e.g. Kaching, Recharge):** Have the app (or a small script) dispatch `cart-drawer:open` or `bundle:cart-added` after adding to cart so this drawer opens and refreshes. See [App integration](app-integration.md).
+For **client stores** that use a **bundle app** (e.g. Kaching) or **subscription app** (e.g. Recharge), you can make the drawer open automatically after any add-to-cart without changing the app:
 
-No extra step is required for the drawer to work when the customer clicks your cart icon; compatibility with apps is achieved by having them fire the same events.
+1. Copy `assets/cart-drawer-app-bridge.js` into your theme `assets/`.
+2. In your layout (e.g. `layout/theme.liquid`), load it **after** the cart drawer section:
+
+```liquid
+{% section 'cart-drawer' %}
+<script src="{{ 'cart-drawer-app-bridge.js' | asset_url }}" defer></script>
+</body>
+```
+
+The bridge listens for successful `fetch` requests to `/cart/add` or `/cart/add.js` (from your theme or from apps that use fetch to add to cart) and dispatches `cart-drawer:open`. The drawer then opens and refreshes with the updated cart.
+
+- **Theme add-to-cart:** The bridge also works for your theme’s AJAX add-to-cart if it uses fetch.
+- **Without the bridge:** You can still have the theme or app dispatch `cart-drawer:open` after add-to-cart. See [App integration](app-integration.md).
+
+No extra step is required for the drawer to work when the customer clicks your cart icon.

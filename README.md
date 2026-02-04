@@ -2,6 +2,9 @@
 
 A **theme- and app-agnostic** cart drawer for Shopify. Works with **any theme**, **any add-to-cart** (theme or app), and **any app** (bundle widgets, subscription apps, etc.). Easy to install on client stores; no hard-coded theme dependencies.
 
+**✅ Easy install on any client store** – Copy 5 files, add one line to the layout, add a cart icon. Works on any Online Store 2.0 theme.  
+**✅ Compatible with any bundle and subscription app** – Kaching, Recharge, or any app that adds to cart: have the app (or one optional script) dispatch `cart-drawer:open` after add-to-cart and the drawer opens with the updated cart. No app-specific code inside the drawer.
+
 [![Shopify Compatible](https://img.shields.io/badge/Shopify-Compatible-96bf48?logo=shopify&logoColor=white&labelColor=414042)](https://www.shopify.com) [![Liquid Template](https://img.shields.io/badge/Liquid-Template-96bf48?labelColor=414042)](https://shopify.dev/docs/api/liquid) [![JavaScript ES6+](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black&labelColor=414042)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 ---
@@ -45,6 +48,7 @@ shopify-cart-drawer/
 │   └── cart-drawer.liquid       # Cart drawer section (dialog + header, body, footer)
 ├── assets/
 │   ├── cart-drawer-standalone.js  # Open/close, events, section refresh (vanilla JS)
+│   ├── cart-drawer-app-bridge.js  # Optional: auto-open drawer after any fetch add-to-cart (theme or app)
 │   └── section-cart-drawer.css    # Minimal layout styles
 ├── snippets/
 │   ├── cart-drawer-items.liquid   # Line items list
@@ -66,7 +70,7 @@ shopify-cart-drawer/
 1. **Copy files** – Copy `sections/`, `assets/`, and `snippets/` into your theme root.
 2. **Add to layout** – In `layout/theme.liquid` (or your main layout), add `{% section 'cart-drawer' %}` before `</body>`.
 3. **Add cart opener** – In your header (or wherever you want the cart icon), add a button that dispatches `cart-drawer:open` (see [Installation](docs/installation.md)).
-4. **Optional:** After your theme or app adds to cart, dispatch `cart-drawer:open` so the drawer opens automatically with the updated cart. See [App integration](docs/app-integration.md).
+4. **Optional – auto-open with any app:** Include `cart-drawer-app-bridge.js` in your layout (after the cart drawer section). It listens for any successful add-to-cart (theme or app) and opens the drawer automatically. No per-app code needed. See [App integration](docs/app-integration.md).
 
 Full steps: [GETTING_STARTED.md](GETTING_STARTED.md) · [docs/installation.md](docs/installation.md)
 
@@ -105,9 +109,10 @@ flowchart TD
 |------------|------------|
 | **Any theme** | Copy files, add section to layout, add cart icon that dispatches `cart-drawer:open`. |
 | **Theme add-to-cart** | After your AJAX add-to-cart, dispatch `cart-drawer:open` (and optionally `cart:update` with section HTML). |
-| **Bundle widget (e.g. Kaching)** | After the app adds to cart, have the app (or a small script) dispatch `cart-drawer:open`. Same for any bundle app. |
-| **Subscription widget (e.g. Recharge)** | After the app adds to cart, dispatch `cart-drawer:open` so this drawer opens and shows the updated cart. |
+| **Bundle widget (e.g. Kaching)** | Add optional `cart-drawer-app-bridge.js` to your layout – drawer opens after any add-to-cart. Or have the app dispatch `cart-drawer:open`. |
+| **Subscription widget (e.g. Recharge)** | Same: add `cart-drawer-app-bridge.js` for auto-open, or dispatch `cart-drawer:open` after the app adds to cart. |
 | **Bundle Offers Widget v2** | Already dispatches `bundle:cart-added`; this drawer listens for it and opens and refreshes. No extra code. |
+| **Any other app** | Use the optional app bridge script (see above) for one-click compatibility with any app that adds to cart via fetch. |
 
 See [App integration](docs/app-integration.md) for event details and code examples.
 
@@ -141,7 +146,7 @@ See [App integration](docs/app-integration.md) for event details and code exampl
 |-------|-------------|
 | Drawer doesn’t open | Ensure `cart-drawer-standalone.js` is loaded and your cart icon dispatches `cart-drawer:open`. Check console for errors. |
 | Drawer opens but content doesn’t refresh | Section ID must match. Check `data-section-id` on the drawer wrapper; use the same ID when dispatching `cart:update` with sections. |
-| App add-to-cart doesn’t open drawer | App must dispatch `cart-drawer:open` (or `bundle:cart-added`) after adding to cart. Use an app script or theme snippet that listens for the app’s success and then dispatches the event. |
+| App add-to-cart doesn’t open drawer | Add optional `cart-drawer-app-bridge.js` to your layout (load after cart drawer). It opens the drawer after any successful fetch to /cart/add. Or have the app dispatch `cart-drawer:open`. |
 
 More: [docs/installation.md](docs/installation.md) · [docs/app-integration.md](docs/app-integration.md)
 
