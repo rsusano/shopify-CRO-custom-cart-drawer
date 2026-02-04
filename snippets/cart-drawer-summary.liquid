@@ -1,7 +1,10 @@
-{%- comment -%} Minimal cart summary for standalone cart drawer. {%- endcomment -%}
+{%- comment -%}
+  Minimal cart summary for standalone cart drawer.
+  @param checkout_button_text - Optional. Passed by sections/cart-drawer.liquid from section settings.
+{%- endcomment -%}
 <div class="cart-drawer-summary">
   <div class="cart-drawer-summary__subtotal">
-    <span>{{ 'cart.general.subtotal' | t | default: 'Subtotal' }}</span>
+    <span>{{ 'Subtotal' }}</span>
     <span>{{ cart.total_price | money }}</span>
   </div>
   <a href="{{ routes.cart_url }}" class="button button--full-width cart-drawer__checkout" id="cart-drawer-checkout-btn">

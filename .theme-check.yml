@@ -1,0 +1,12 @@
+# Standalone package: snippets are rendered by sections/cart-drawer.liquid;
+# translation keys may not exist in every theme; checkout_button_text is passed by the section.
+extends: theme-check:recommended
+
+TranslationKeyExists:
+  enabled: false
+UnusedSnippet:
+  enabled: false
+OrphanedSnippet:
+  enabled: false
+UndefinedObject:
+  enabled: false
