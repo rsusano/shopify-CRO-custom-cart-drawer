@@ -11,13 +11,7 @@ A **theme- and app-agnostic** cart drawer for Shopify. Works with **any theme**,
 
 ## 📸 Visual Preview
 
-*Add a screenshot or short video of the cart drawer open on a product/collection page (header cart icon, drawer with line items, checkout button).*
-
-| Cart icon in header | Drawer open with items |
-|---------------------|-------------------------|
-| *[Screenshot: cart icon with count]* | *[Screenshot: drawer layout]* |
-
-**Demo:** *Optional – link to a short clip: click cart → drawer opens → update quantity → checkout.*
+https://github.com/user-attachments/assets/0a40dabe-7405-4c3c-859d-148a48fe61f7
 
 ---
 
